@@ -1,3 +1,5 @@
+# 2022 KAKAO BLIND RECRUITMENT
+
 def solution(id_list, report, k):
     answer = [0]*len(id_list)
     id_reported = {id:0 for id in id_list}

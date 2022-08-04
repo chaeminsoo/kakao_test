@@ -1,3 +1,5 @@
+# 2022 KAKAO BLIND RECRUITMENT
+
 def ten_to_n(num, n):
     word=""
     while num:
