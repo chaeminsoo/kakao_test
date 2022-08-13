@@ -4,42 +4,47 @@ def solution(play_time, adv_time, logs):
     play_time = int(h)*60*60 + int(m)*60 + int(s)
     h,m,s = adv_time.split(':')
     adv_time = int(h)*60*60 + int(m)*60 + int(s)
-    time_line = [0]*(play_time+1)
+    time_line = [0]*(play_time+2)
     for i in logs:
         st,et = i.split('-')
+        # print('/',st,et)
         h,m,s = st.split(':')
         st = int(h)*60*60 + int(m)*60 + int(s)
         h,m,s = et.split(':')
         et = int(h)*60*60 + int(m)*60 + int(s)
         
+        # print('=',st,et)
         time_line[st] += 1
-        time_line[et] -= 1
-        
-    cursor_ = 1
-    while cursor_ <= play_time:
-        time_line[cursor_] += time_line[cursor_-1]
-        cursor_+=1
-    print('1')
+        time_line[et+1] -= 1
+    p_sum = [0]*(play_time+2)
+    for i in range(1,play_time+2):
+        time_line[i] += time_line[i-1]
+        p_sum[i] += time_line[i]
+        p_sum[i] += p_sum[i-1]
     
+
+    print('&',time_line[3599])
+    print('&',time_line[93599])
+    print('$',time_line[3600])
+    print('$',time_line[93600])
+    print()
+    print('&',p_sum[3599])
+    print('&',p_sum[93599])
+    print('$',p_sum[3600])
+    print('$',p_sum[93600])
     ans = [0,0]
-    i = 0
-    # print(play_time)
-    while i <= play_time:
-        watch_time = sum(time_line[i:i+adv_time+1])
-        if ans[0] < watch_time:
-            ans[0] = watch_time
-            ans[1] = i
-        i+=1
-        print(i,play_time)
-    print('2')
-    # for i in range(play_time):
-    #     try:
-    #         watch_time = sum(time_line[i:i+adv_time+1])
-    #             ans[0] = watch_time
-    #             ans[1] = i
-    #     except IndexError:
-    #         break
-    # print('cursor_')
+    for i in range(play_time+1):
+        try:
+            wt = p_sum[adv_time+i] - p_sum[i]
+            # print('00',i)
+            if i == 3600 or i == 3599:
+                print('=',wt, i, adv_time+i, adv_time)
+            if wt > ans[0]:
+                ans[0] = wt
+                ans[1] = i
+        except IndexError:
+            break
+        
     rslt = ans[1]
     h = rslt//(60**2)     
     rslt %= (60**2)
