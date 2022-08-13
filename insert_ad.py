@@ -7,13 +7,11 @@ def solution(play_time, adv_time, logs):
     time_line = [0]*(play_time+2)
     for i in logs:
         st,et = i.split('-')
-        # print('/',st,et)
         h,m,s = st.split(':')
         st = int(h)*60*60 + int(m)*60 + int(s)
         h,m,s = et.split(':')
         et = int(h)*60*60 + int(m)*60 + int(s)
         
-        # print('=',st,et)
         time_line[st] += 1
         time_line[et+1] -= 1
     p_sum = [0]*(play_time+2)
@@ -22,26 +20,14 @@ def solution(play_time, adv_time, logs):
         p_sum[i] += time_line[i]
         p_sum[i] += p_sum[i-1]
     
-
-    print('&',time_line[3599])
-    print('&',time_line[93599])
-    print('$',time_line[3600])
-    print('$',time_line[93600])
-    print()
-    print('&',p_sum[3599])
-    print('&',p_sum[93599])
-    print('$',p_sum[3600])
-    print('$',p_sum[93600])
     ans = [0,0]
-    for i in range(play_time+1):
+    p_sum.insert(0,0)
+    for i in range(1,play_time+1):
         try:
-            wt = p_sum[adv_time+i] - p_sum[i]
-            # print('00',i)
-            if i == 3600 or i == 3599:
-                print('=',wt, i, adv_time+i, adv_time)
+            wt = p_sum[adv_time+i] - p_sum[i-1]
             if wt > ans[0]:
                 ans[0] = wt
-                ans[1] = i
+                ans[1] = i-1
         except IndexError:
             break
         
