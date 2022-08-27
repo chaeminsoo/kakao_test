@@ -1,3 +1,14 @@
+# insufficient amount of money
+def solution(price, money, count):
+    answer = 0
+    for i in range(1,count+1):
+        answer += i*price
+    if money > answer:
+        return 0
+    else:
+        return answer - money
+
+# stars in meets
 def solution(line):
     meets = []
     ll = len(line)
@@ -12,25 +23,24 @@ def solution(line):
             if x%1 == 0 and y%1 == 0:
                 meets.append((int(x),int(y)))
     meets = list(set(meets))
-    u = -1e9
-    d = 1e9
-    l = 1e9
-    r = -1e9
+    u = -1e15
+    d = 1e15
+    l = 1e15
+    r = -1e15
     for i,j in meets:
         u = max(u,j)
         d = min(d,j)
         l = min(l,i)
         r = max(r,i)
-    print(meets)
-    print(u,d,l,r)
     ans = [['.']*(r-l+1) for _ in range(u-d+1)]
-    
-            
-    
-            
-            
-    return ans
-
-
-
-
+    new_meets = []
+    for i,j in meets:
+        j = abs(u - j)
+        i = abs(l - i)
+        new_meets.append([j,i])
+    for i,j in new_meets:
+        ans[i][j] = '*'
+    rslt = []
+    for i in ans:
+        rslt.append(''.join(i))
+    return rslt
